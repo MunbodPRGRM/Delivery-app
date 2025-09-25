@@ -1,4 +1,5 @@
 import 'package:delivery_app/pages/auth/login.dart';
+import 'package:delivery_app/pages/auth/register.dart';
 import 'package:flutter/material.dart';
 
 class RoleSelectionScreen extends StatefulWidget {
@@ -10,12 +11,14 @@ class RoleSelectionScreen extends StatefulWidget {
 
 class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
   void navigateToRegister(BuildContext context, String role) {
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => RegisterScreen(role: role), // ส่ง role ไปด้วยถ้าต้องการ
-    //   ),
-    // );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder:
+            (context) =>
+                RegisterScreen(role: role), // ส่ง role ไปด้วยถ้าต้องการ
+      ),
+    );
   }
 
   void navigateToLogin(BuildContext context) {
