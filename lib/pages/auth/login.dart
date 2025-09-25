@@ -1,5 +1,11 @@
+import 'dart:convert';
+
+import 'package:delivery_app/config/internal_config.dart';
+import 'package:delivery_app/model/request/user_login_post_req.dart';
+import 'package:delivery_app/model/response/user_login_post_res.dart';
 import 'package:delivery_app/pages/user/home.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -10,6 +16,54 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _obscurePassword = true;
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  Future<void> login() async {
+    final phoneNumber = _phoneController.text.trim();
+    final password = _passwordController.text.trim();
+
+    UserLoginPostRequest request = UserLoginPostRequest(
+      phoneNumber: phoneNumber,
+      password: password,
+    );
+
+    if (phoneNumber.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("กรุณากรอกเบอร์โทรและรหัสผ่าน")));
+      return;
+    }
+
+    try {
+      final response = await http.post(
+        Uri.parse("$API_ENDPOINT/users/login"), // เปลี่ยนเป็น IP Server ของคุณ
+        headers: {"Content-Type": "application/json"},
+        body: userLoginPostRequestToJson(request),
+      );
+
+      if (response.statusCode == 200) {
+        final data = userLoginPostResponseFromJson(response.body);
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text("✅ Login สำเร็จ")));
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen(user: data.user)),
+        );
+      } else {
+        final error = jsonDecode(response.body);
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text("❌ ${error['error']}")));
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("⚠️ มีข้อผิดพลาด: $e")));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +88,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
               // 👤 ช่องกรอกชื่อผู้ใช้
               TextField(
+                controller: _phoneController,
+                keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
                   prefixIcon: Icon(Icons.person),
-                  hintText: 'User Name',
+                  hintText: 'Phone Number',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
                   ),
@@ -48,6 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
               // 🔒 ช่องกรอกรหัสผ่าน
               TextField(
+                controller: _passwordController,
                 obscureText: _obscurePassword,
                 decoration: InputDecoration(
                   filled: true,
@@ -85,12 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(12.0),
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()),
-                    );
-                  },
+                  onPressed: login,
                   child: Text('Log In'),
                 ),
               ),
