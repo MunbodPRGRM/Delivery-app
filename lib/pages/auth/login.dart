@@ -1,3 +1,4 @@
+import 'package:delivery_app/pages/user/home.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -85,10 +86,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   onPressed: () {
-                    // Navigator.pushReplacement(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => HomeScreen()),
-                    // );
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomeScreen()),
+                    );
                   },
                   child: Text('Log In'),
                 ),
