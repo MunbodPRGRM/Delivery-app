@@ -1,3 +1,4 @@
+import 'package:delivery_app/pages/auth/selectedrole.dart';
 import 'package:flutter/material.dart';
 
 class OnboardScreen extends StatefulWidget {
@@ -43,10 +44,12 @@ class _OnboardScreenState extends State<OnboardScreen> {
                       ),
                     ),
                     onPressed: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => RoleSelectionScreen()),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RoleSelectionScreen(),
+                        ),
+                      );
                     },
                     child: Text('Get Started'),
                   ),
