@@ -1,62 +1,65 @@
 // To parse this JSON data, do
 //
-//     final userLoginPostRequest = userLoginPostRequestFromJson(jsonString);
+//     final userLoginPostResponse = userLoginPostResponseFromJson(jsonString);
 
 import 'dart:convert';
 
-UserLoginPostRequest userLoginPostRequestFromJson(String str) =>
-    UserLoginPostRequest.fromJson(json.decode(str));
+UserLoginPostResponse userLoginPostResponseFromJson(String str) => UserLoginPostResponse.fromJson(json.decode(str));
 
-String userLoginPostRequestToJson(UserLoginPostRequest data) =>
-    json.encode(data.toJson());
+String userLoginPostResponseToJson(UserLoginPostResponse data) => json.encode(data.toJson());
 
-class UserLoginPostRequest {
-  String message;
-  User user;
+class UserLoginPostResponse {
+    String message;
+    User user;
 
-  UserLoginPostRequest({required this.message, required this.user});
+    UserLoginPostResponse({
+        required this.message,
+        required this.user,
+    });
 
-  factory UserLoginPostRequest.fromJson(Map<String, dynamic> json) =>
-      UserLoginPostRequest(
+    factory UserLoginPostResponse.fromJson(Map<String, dynamic> json) => UserLoginPostResponse(
         message: json["message"],
         user: User.fromJson(json["user"]),
-      );
+    );
 
-  Map<String, dynamic> toJson() => {"message": message, "user": user.toJson()};
+    Map<String, dynamic> toJson() => {
+        "message": message,
+        "user": user.toJson(),
+    };
 }
 
 class User {
-  int userId;
-  String phoneNumber;
-  String password;
-  String name;
-  dynamic picProfile;
-  dynamic gps;
+    int userId;
+    String phoneNumber;
+    String password;
+    String name;
+    dynamic picProfile;
+    dynamic gps;
 
-  User({
-    required this.userId,
-    required this.phoneNumber,
-    required this.password,
-    required this.name,
-    required this.picProfile,
-    required this.gps,
-  });
+    User({
+        required this.userId,
+        required this.phoneNumber,
+        required this.password,
+        required this.name,
+        required this.picProfile,
+        required this.gps,
+    });
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
-    userId: json["userId"],
-    phoneNumber: json["phoneNumber"],
-    password: json["password"],
-    name: json["name"],
-    picProfile: json["picProfile"],
-    gps: json["gps"],
-  );
+    factory User.fromJson(Map<String, dynamic> json) => User(
+        userId: json["userId"],
+        phoneNumber: json["phoneNumber"],
+        password: json["password"],
+        name: json["name"],
+        picProfile: json["picProfile"],
+        gps: json["gps"],
+    );
 
-  Map<String, dynamic> toJson() => {
-    "userId": userId,
-    "phoneNumber": phoneNumber,
-    "password": password,
-    "name": name,
-    "picProfile": picProfile,
-    "gps": gps,
-  };
+    Map<String, dynamic> toJson() => {
+        "userId": userId,
+        "phoneNumber": phoneNumber,
+        "password": password,
+        "name": name,
+        "picProfile": picProfile,
+        "gps": gps,
+    };
 }

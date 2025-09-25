@@ -1,7 +1,10 @@
+import 'package:delivery_app/model/response/user_login_post_res.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final User user;
+
+  const HomeScreen({super.key, required this.user});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -51,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 SizedBox(width: 12),
                 Text(
-                  'สวัสดี, BaleKeetak',
+                  'สวัสดี, ${widget.user.name}',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
               ],

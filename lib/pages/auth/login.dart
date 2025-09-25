@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:delivery_app/config/internal_config.dart';
+import 'package:delivery_app/model/request/user_login_post_req.dart';
+import 'package:delivery_app/model/response/user_login_post_res.dart';
 import 'package:delivery_app/pages/user/home.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -21,6 +23,11 @@ class _LoginScreenState extends State<LoginScreen> {
     final phoneNumber = _phoneController.text.trim();
     final password = _passwordController.text.trim();
 
+    UserLoginPostRequest request = UserLoginPostRequest(
+      phoneNumber: phoneNumber,
+      password: password,
+    );
+
     if (phoneNumber.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(
         context,
@@ -32,18 +39,18 @@ class _LoginScreenState extends State<LoginScreen> {
       final response = await http.post(
         Uri.parse("$API_ENDPOINT/users/login"), // เปลี่ยนเป็น IP Server ของคุณ
         headers: {"Content-Type": "application/json"},
-        body: jsonEncode({"phoneNumber": phoneNumber, "password": password}),
+        body: userLoginPostRequestToJson(request),
       );
 
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
+        final data = userLoginPostResponseFromJson(response.body);
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text("✅ Login สำเร็จ")));
 
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
+          MaterialPageRoute(builder: (context) => HomeScreen(user: data.user)),
         );
       } else {
         final error = jsonDecode(response.body);
