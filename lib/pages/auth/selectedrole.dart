@@ -1,3 +1,4 @@
+import 'package:delivery_app/pages/auth/login.dart';
 import 'package:flutter/material.dart';
 
 class RoleSelectionScreen extends StatefulWidget {
@@ -18,10 +19,10 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
   }
 
   void navigateToLogin(BuildContext context) {
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(builder: (context) => LoginScreen()),
-    // );
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => LoginScreen()),
+    );
   }
 
   @override

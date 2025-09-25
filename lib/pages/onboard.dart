@@ -1,3 +1,4 @@
+import 'package:delivery_app/pages/auth/login.dart';
 import 'package:delivery_app/pages/auth/selectedrole.dart';
 import 'package:flutter/material.dart';
 
@@ -69,10 +70,10 @@ class _OnboardScreenState extends State<OnboardScreen> {
                       ),
                     ),
                     onPressed: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => LoginScreen()),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                      );
                     },
                     child: Text('Log In'),
                   ),
